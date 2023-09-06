@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -124,5 +125,115 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
+MEDIA_URL = 'media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+# JAZZMIN SETTINGS
+JAZZMIN_SETTINGS = {
+    # Logo to use for your site, must be present in static files, used for login form logo (defaults to site_logo)
+    "login_logo": "logo/Logo.png",
+    # CSS classes that are applied to the logo above
+    "site_logo_classes": "img-circle",
+
+    # Relative path to a favicon for your site, will default to site_logo if absent (ideally 32x32 px)
+    "site_icon": "logo/Logo.png",
+
+    # Welcome text on the login screen
+    "welcome_sign": "Bienvenue sur LiyaBien",
+
+    # Copyright on the footer
+    "copyright": "JESP",
+
+    # Field name on user model that contains avatar ImageField/URLField/Charfield or a callable that receives the user
+    "user_avatar": "Utilisateurs.CustomUser.photo",
+
+    # Additional links to include in the user menu on the top right ("app" url type is not allowed)
+    # "usermenu_links": [
+    #     {"name": "Support", "url": "http://127.0.0.1:8000/swagger/", "new_window": True},
+    #     {"model": "Utilisateurs.CustomUser"}
+    # ],
+
+    # Whether to display the side menu
+    "show_sidebar": True,
+
+    # Whether to aut expand the menu
+    "navigation_expanded": True,
+
+    # List of apps (and/or models) to base side menu ordering off of (does not need to contain all apps/models)
+    "order_with_respect_to": ["Restaurants", "Utilisateurs", "auth"],
+
+    # Icons that are used when one is not manually specified
+    "default_icon_parents": "fas fa-chevron-circle-right",
+    "default_icon_children": "fas fa-circle",
+
+    #############
+    # UI Tweaks #
+    #############
+    # Relative paths to custom CSS/JS scripts (must be present in static files)
+    "custom_css": None,
+    "custom_js": None,
+    "topmenu_links": [
+
+        # Url that gets reversed (Permissions can be added)
+        {"name": "Accueil",  "url": "admin:index", "permissions": ["auth.view_user"]},
+
+        # model admin to link to (Permissions checked against model)
+        {"model": "Utilisateurs.CustomUser"},
+
+        # App with dropdown menu to all its models pages (Permissions checked against models)
+        {"app": "Utilisateurs"},
+    ],
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "Utilisateurs.CustomUser": "fas fa-user",
+        "auth.Group": "fas fa-users",
+    },
+    ###############
+    # Change view #
+    ###############
+    # Render out the change view as a single form, or in tabs, current options are
+    # - single
+    # - horizontal_tabs (default)
+    # - vertical_tabs
+    # - collapsible
+    # - carousel
+    "changeform_format": "horizontal_tabs",
+    # override change forms on a per modeladmin basis
+    "changeform_format_overrides": {"Utilisateurs.CustomUser": "collapsible", "auth.group": "vertical_tabs"},
+    # Add a language dropdown into the admin
+    "language_chooser": False
+}
+
+JAZZMIN_UI_TWEAKS = {
+    # Link colour
+    "accent": "accent-primary",
+    # topmenu colour
+    "navbar": "navbar-white navbar-light",
+    # topmenu border
+    "no_navbar_border": False,
+    # Make the top navbar sticky, keeping it in view as you scroll
+    "navbar_fixed": True,
+    # Whether to constrain the page to a box (leaving big margins at the side)
+    "layout_boxed": False,
+    # Make the footer sticky, keeping it in view all the time
+    "footer_fixed": True,
+    # Make the sidebar sticky, keeping it in view as you scroll
+    "sidebar_fixed": True,
+    # sidemenu colour
+    "sidebar": "sidebar-dark-primary",
+    # sidemenu small text
+    "sidebar_nav_small_text": False,
+    # Indent child menu items on sidebar
+    "sidebar_nav_child_indent": False,
+    # Use a compact sidebar
+    "sidebar_nav_compact_style": False,
+    # Use a flat style sidebar
+    "sidebar_nav_flat_style": True,
+    # Bootstrap theme to use (default, or from bootswatch, see THEMES below)
+    "theme": "default",
+    # Theme to use instead if the user has opted for dark mode (e.g darkly/cyborg/slate/solar/superhero)
+    "dark_mode_theme": False,
+}
+
