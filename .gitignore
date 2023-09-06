@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+# Default ignored files
+iportfolio-env/
+=======
 # Environments 
 .env/*
 .venv/*
@@ -13,3 +17,4 @@
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+>>>>>>> c4aa9080588467566233ffa247a80d145cc58529
