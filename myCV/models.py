@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
+from datetime import date
+from django.core.validators import RegexValidator
 
 # Create your models here.
 from django.utils import timezone
@@ -68,13 +70,23 @@ class Testimonials(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
+#Expresions regulières !!!!!
+phone_validator = RegexValidator(
+    regex=r'^\d+$',  # Seuls les chiffres sont autorisé ici
+    message='Phone number can only contain digits.',
+)
+
+MARITAL_STATUS_CHOICES = [
+    ('veuf', 'Veuf'),
+    ('marié', 'Marié'),
+    ('célibataire', 'Célibataire'),
+]
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image_profile = models.ImageField(upload_to="profile_pics/")
-    birthday = models.CharField(max_length=100)
+    birthday = models.DateField()
     degree = models.CharField(max_length=100)
-    age = models.IntegerField()
-    phone = models.CharField(max_length=100)
+    phone = models.CharField(max_length=100 , validators=[phone_validator])
     available = models.BooleanField(default=False)
     status_job_one = models.CharField(max_length=100)
     status_job_two = models.CharField(max_length=100)
@@ -91,6 +103,9 @@ class Profile(models.Model):
 
     country = models.CharField(max_length=100,
                                help_text="Enter Your Country")
+    
+    marital_status = models.CharField(max_length=20, choices=MARITAL_STATUS_CHOICES, default='célibataire')
+
 
     twitter_url = models.CharField(max_length=250, default="#",
                                    blank=True, null=True,
@@ -122,3 +137,8 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"{self.user.username}'s Profile"
+    
+    def calculate_age(self):
+        today = date.today()
+        age = today.year - self.birthday.year - ((today.month, today.day) < (self.birthday.month, self.birthday.day))
+        return age
