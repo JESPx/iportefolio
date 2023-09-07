@@ -96,6 +96,7 @@ class Profile(models.Model):
     address = models.CharField(max_length=100,
                                help_text="Enter Your Address"
                                )
+    
 
     city = models.CharField(
         max_length=100, help_text="Enter Your City"
